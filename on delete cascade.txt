@@ -1,0 +1,64 @@
+SQL> create table student(id varchar(5) primary key,name varchar(20),deptname varchar(20) references dept(deptname) on delete cascade);
+
+Table created.
+
+SQL> insert into dept values('csd','ao',3000);
+
+1 row created.
+
+SQL> insert into student values(25,'giri','it');
+
+1 row created.
+
+SQL>  insert into student values(44,'ram','cse');
+
+1 row created.
+
+SQL>  insert into student values(16,'ravi','csd');
+
+1 row created.
+
+SQL> select * from student;
+
+ID    NAME                 DEPTNAME
+----- -------------------- --------------------
+25    giri                 it
+44    ram                  cse
+16    ravi                 csd
+
+SQL> select * from student;
+
+ID    NAME                 DEPTNAME
+----- -------------------- --------------------
+25    giri                 it
+44    ram                  cse
+16    ravi                 csd
+
+SQL> select * from dept;
+
+DEPTNAME             BUILDING
+-------------------- --------------------------------------------------
+    BUDGET
+----------
+it                   itp
+      5000
+
+cse                  csp
+      2000
+
+csd                  ao
+      3000
+
+
+SQL> delete from dept where deptname=csd;
+delete from dept where deptname=csd
+                                *
+ERROR at line 1:
+ORA-00904: "CSD": invalid identifier
+
+
+SQL> delete from dept where deptname='csd';
+
+1 row deleted.
+
+SQL>

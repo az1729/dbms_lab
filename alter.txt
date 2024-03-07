@@ -1,0 +1,70 @@
+SQL> create table ss(id number(5) primary key,name varchar(20));
+
+Table created.
+
+SQL> desc ss;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(5)
+ NAME                                               VARCHAR2(20)
+
+SQL> alter table ss add(age number(3));
+
+Table altered.
+
+SQL> desc ss;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(5)
+ NAME                                               VARCHAR2(20)
+ AGE                                                NUMBER(3)
+
+SQL> alter table ss modify(name varchar(40));
+
+Table altered.
+
+SQL> insert into ss values(25,'giri',20);
+
+1 row created.
+
+SQL> insert into ss values(44,'giridharans',19);
+
+1 row created.
+
+SQL> alter table ss modify(name varchar(10));
+alter table ss modify(name varchar(10))
+                      *
+ERROR at line 1:
+ORA-01441: cannot decrease column length because some value is too big
+
+
+SQL> desc ss;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(5)
+ NAME                                               VARCHAR2(40)
+ AGE                                                NUMBER(3)
+
+SQL> alter table ss modify(name varchar(15));
+
+Table altered.
+
+SQL> desc ss;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(5)
+ NAME                                               VARCHAR2(15)
+ AGE                                                NUMBER(3)
+
+SQL> alter table ss drop column age;
+
+Table altered.
+
+SQL> select * from ss;
+
+        ID NAME
+---------- ---------------
+        25 giri
+        44 giridharans
+
+SQL>

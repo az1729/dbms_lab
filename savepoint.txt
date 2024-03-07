@@ -1,0 +1,130 @@
+SQL> update std set name='ram' where id=26;
+
+1 row updated.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 ram                     20
+        27 girid
+
+SQL> savepoint s1;
+
+Savepoint created.
+
+SQL> update std set name='raman' where id=26;
+
+1 row updated.
+
+SQL> savepoint s2;
+
+Savepoint created.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 raman                   20
+        27 girid
+
+SQL> savepoint to s1;
+savepoint to s1
+          *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 raman                   20
+        27 girid
+
+SQL> savepoint s1;
+
+Savepoint created.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 raman                   20
+        27 girid
+
+SQL> update std set name='ram' where id=26;
+
+1 row updated.
+
+SQL> savepoint s2;
+
+Savepoint created.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 ram                     20
+        27 girid
+
+SQL> savepoint to s2;
+savepoint to s2
+          *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 ram                     20
+        27 girid
+
+SQL> rollback to s2;
+
+Rollback complete.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 ram                     20
+        27 girid
+
+SQL> savepoint to s1;
+savepoint to s1
+          *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> rollback to s1;
+
+Rollback complete.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 raman                   20
+        27 girid
+
+SQL>

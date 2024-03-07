@@ -1,0 +1,93 @@
+SQL> select * from student;
+
+no rows selected
+
+SQL> desc student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL VARCHAR2(5)
+ NAME                                               VARCHAR2(20)
+ DEPTNAME                                           VARCHAR2(20)
+
+SQL> > insert into dept values('csd','ao',3000);
+SP2-0734: unknown command beginning "> insert i..." - rest of line ignored.
+SQL> select * from dept;
+
+DEPTNAME             BUILDING
+-------------------- --------------------------------------------------
+    BUDGET
+----------
+it                   itp
+      5000
+
+cse                  csp
+      2000
+
+
+SQL>  insert into dept values('csd','ao',3000);
+
+1 row created.
+
+SQL> insert into student values(25,'giri','it');
+
+1 row created.
+
+SQL> insert into student values(44,'ram','cse');
+
+1 row created.
+
+SQL> insert into student values(16,'ravi','csd');
+
+1 row created.
+
+SQL> select * from student;
+
+ID    NAME                 DEPTNAME
+----- -------------------- --------------------
+25    giri                 it
+44    ram                  cse
+16    ravi                 csd
+
+SQL> select * from dept;
+
+DEPTNAME             BUILDING
+-------------------- --------------------------------------------------
+    BUDGET
+----------
+it                   itp
+      5000
+
+cse                  csp
+      2000
+
+csd                  ao
+      3000
+
+
+SQL> delete from dept where deptname='csd';
+
+1 row deleted.
+
+SQL> select * from dept;
+
+DEPTNAME             BUILDING
+-------------------- --------------------------------------------------
+    BUDGET
+----------
+it                   itp
+      5000
+
+cse                  csp
+      2000
+
+
+SQL> select * from student;
+
+ID    NAME                 DEPTNAME
+----- -------------------- --------------------
+25    giri                 it
+44    ram                  cse
+16    ravi
+
+SQL>
+

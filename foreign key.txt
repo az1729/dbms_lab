@@ -1,0 +1,63 @@
+create table dept(deptname varchar(20) primary key,building varchar(50),budget number(10,2));
+create table student(id varchar(5) primary key,name varchar(20),deptname varchar(20) references dept(deptname));
+insert into dept values('it','itp',5000);
+insert into dept values('cse','csp',2000);
+insert into dept values('csd','ao',3000);
+insert into student values(25,'giri','it');
+insert into student values(44,'ram','cse');
+insert into student values(16,'ravi','csd');
+select * from student;
+
+SQL>	select * from student;
+ID    NAME                 DEPTNAME
+----- -------------------- --------------------
+25    giri                 it
+44    ram                  cse
+16    ravi                 csd
+
+SQL> select * from dept;
+DEPTNAME             BUILDING				BUDGET
+-------------------- --------------------------------------------------	----------
+it                   itp						5000
+
+cse                  csp					2000
+
+csd                  ao						3000
+
+SQL> drop table dept;
+drop table dept
+           *
+ERROR at line 1:
+ORA-02449: unique/primary keys in table referenced by foreign keys
+
+SQL> delete dept where deptname='csd';
+delete dept where deptname='csd'
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (STUDENT.SYS_C004098) violated - child record
+Found
+
+
+
+SQL> delete student where deptname='csd';
+
+1 row deleted.
+
+SQL> delete dept where deptname='csd';
+
+1 row deleted.
+
+SQL> select * from student;
+
+ID    NAME                 DEPTNAME
+----- -------------------- --------------------
+25    giri                 it
+44    ram                  cse
+
+SQL> select * from dept;
+DEPTNAME             BUILDING				BUDGET
+-------------------- --------------------------------------------------	----------
+it                   itp						5000
+cse                  csp					2000
+
+
