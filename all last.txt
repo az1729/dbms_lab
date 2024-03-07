@@ -1,0 +1,585 @@
+
+SQL> create table ss(id number(5) primary key,name varchar(20));
+
+Table created.
+
+SQL> desc ss;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(5)
+ NAME                                               VARCHAR2(20)
+
+SQL> alter table ss add(age number(3));
+
+Table altered.
+
+SQL> desc ss;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(5)
+ NAME                                               VARCHAR2(20)
+ AGE                                                NUMBER(3)
+
+SQL> alter table ss modify(name varchar(40));
+
+Table altered.
+
+SQL> insert into ss values(25,'giri',20);
+
+1 row created.
+
+SQL> insert into ss values(44,'giridharans',19);
+
+1 row created.
+
+SQL> alter table ss modify(name varchar(10));
+alter table ss modify(name varchar(10))
+                      *
+ERROR at line 1:
+ORA-01441: cannot decrease column length because some value is too big
+
+
+SQL> desc ss;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(5)
+ NAME                                               VARCHAR2(40)
+ AGE                                                NUMBER(3)
+
+SQL> alter table ss modify(name varchar(15));
+
+Table altered.
+
+SQL> desc ss;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(5)
+ NAME                                               VARCHAR2(15)
+ AGE                                                NUMBER(3)
+
+SQL> alter table ss drop column age;
+
+Table altered.
+
+SQL> select * from ss;
+
+        ID NAME
+---------- ---------------
+        25 giri
+        44 giridharans
+
+SQL> rename ss to std;
+
+Table renamed.
+
+SQL> select * from ss;
+select * from ss
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select * from std;
+
+        ID NAME
+---------- ---------------
+        25 giri
+        44 giridharans
+
+SQL> alter table ss add(age number(3));
+alter table ss add(age number(3))
+*
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> alter table std add(age number(3));
+
+Table altered.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giri
+        44 giridharans
+
+SQL> insert into std(age) values(20);
+insert into std(age) values(20)
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("STUDENT"."STD"."ID")
+
+
+SQL> insert into std(id,age) values(25,20);
+insert into std(id,age) values(25,20)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (STUDENT.SYS_C004112) violated
+
+
+SQL> insert into std(id,age) values(26,20);
+
+1 row created.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giri
+        44 giridharans
+        26                         20
+
+SQL> insert into std(age) values(19) where id=25;
+insert into std(age) values(19) where id=25
+                                *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> insert into std(id,name) values(27,girid);
+insert into std(id,name) values(27,girid)
+                                   *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+SQL> insert into std(id,name) values(27,'girid');
+
+1 row created.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giri
+        44 giridharans
+        26                         20
+        27 girid
+
+SQL> create table a(abc varchar(200);
+create table a(abc varchar(200)
+                              *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table a(abc varchar(200));
+
+Table created.
+
+SQL> desc a
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ABC                                                VARCHAR2(200)
+
+SQL> drop a;
+drop a
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option
+
+
+SQL> drop table a;
+
+Table dropped.
+
+SQL> create table a(abc varchar(1000));
+
+Table created.
+
+SQL> desc a;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ABC                                                VARCHAR2(1000)
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giri
+        44 giridharans
+        26                         20
+        27 girid
+
+SQL> update std set age=20 where id=25;
+
+1 row updated.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giri                    20
+        44 giridharans
+        26                         20
+        27 girid
+
+SQL> update std set age=25 where id=44;
+
+1 row updated.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giri                    20
+        44 giridharans             25
+        26                         20
+        27 girid
+
+SQL> update std set age=22,name='giridharan' where id=25;
+
+1 row updated.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26                         20
+        27 girid
+
+SQL> update std set name='ram' where id=26;
+
+1 row updated.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 ram                     20
+        27 girid
+
+SQL> savepoint s1;
+
+Savepoint created.
+
+SQL> update std set name='raman' where id=26;
+
+1 row updated.
+
+SQL> savepoint s2;
+
+Savepoint created.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 raman                   20
+        27 girid
+
+SQL> savepoint to s1;
+savepoint to s1
+          *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 raman                   20
+        27 girid
+
+SQL> savepoint s1;
+
+Savepoint created.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 raman                   20
+        27 girid
+
+SQL> update std set name='ram' where id=26;
+
+1 row updated.
+
+SQL> savepoint s2;
+
+Savepoint created.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 ram                     20
+        27 girid
+
+SQL> savepoint to s2;
+savepoint to s2
+          *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 ram                     20
+        27 girid
+
+SQL> rollback to s2;
+
+Rollback complete.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 ram                     20
+        27 girid
+
+SQL> savepoint to s1;
+savepoint to s1
+          *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> rollback to s1;
+
+Rollback complete.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 raman                   20
+        27 girid
+
+SQL> select name,age from std;
+
+
+
+
+
+
+
+
+
+NAME                   AGE
+--------------- ----------
+giridharan              22
+giridharans             25
+raman                   20
+girid
+
+SQL> select name,age from std;
+
+NAME                   AGE
+--------------- ----------
+giridharan              22
+giridharans             25
+raman                   20
+girid
+
+SQL> select name,age from std where id=25;
+
+NAME                   AGE
+--------------- ----------
+giridharan              22
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 raman                   20
+        27 girid
+
+SQL> update std(age) values(22) where id=27;
+update std(age) values(22) where id=27
+          *
+ERROR at line 1:
+ORA-00971: missing SET keyword
+
+
+SQL> update std set age=22 where id=27;
+
+1 row updated.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giridharan              22
+        44 giridharans             25
+        26 raman                   20
+        27 girid                   22
+
+SQL> delete from std where age=22;
+
+2 rows deleted.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        44 giridharans             25
+        26 raman                   20
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giri
+        44 giridharans
+        26                         20
+        27 girid
+
+SQL> rollback to s1;
+rollback to s1
+*
+ERROR at line 1:
+ORA-01086: savepoint 'S1' never established
+
+
+SQL> rollback to s2;
+rollback to s2
+*
+ERROR at line 1:
+ORA-01086: savepoint 'S2' never established
+
+
+SQL> rollback to s1; update std set name='raman' where id=26;
+rollback to s1; update std set name='raman' where id=26
+              *
+ERROR at line 1:
+ORA-00911: invalid character
+
+
+SQL>  update std set name='ram' where id=26;
+
+1 row updated.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giri
+        44 giridharans
+        26 ram                     20
+        27 girid
+
+SQL> update std set age=19 where id=25;
+
+1 row updated.
+
+SQL> update std set age=19 where id=44;
+
+1 row updated.
+
+SQL> update std set age=24 where id=27;
+
+1 row updated.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giri                    19
+        44 giridharans             19
+        26 ram                     20
+        27 girid                   24
+
+SQL> delete from std where age=22;
+
+0 rows deleted.
+
+SQL> delete from std where age=19;
+
+2 rows deleted.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        26 ram                     20
+        27 girid                   24
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giri                    19
+        44 giridharans             19
+        26 ram                     20
+        27 girid                   24
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from std;
+
+        ID NAME                   AGE
+---------- --------------- ----------
+        25 giri                    19
+        44 giridharans             19
+        26 ram                     20
+        27 girid                   24
+
+SQL> select name,age from std;
+
+NAME                   AGE
+--------------- ----------
+giri                    19
+giridharans             19
+ram                     20
+girid                   24
+
+SQL> select name from std where age=19;
+
+NAME
+---------------
+giri
+giridharans
+
+SQL> select id,name from std where age=19;
+
+        ID NAME
+---------- ---------------
+        25 giri
+        44 giridharans
+
+SQL>
